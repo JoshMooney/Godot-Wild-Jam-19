@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/default.png" type="Texture" id=1]
+
+[node name="FootStep" type="Sprite"]
+scale = Vector2( 0.007, 0.007 )
+texture = ExtResource( 1 )

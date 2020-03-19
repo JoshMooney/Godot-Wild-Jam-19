@@ -2,6 +2,7 @@ extends Node
 
 var fsm: StateMachine
 var IdleState = "IdleState"
+
 onready var Timer = get_parent().get_node("FleeTimer")
 onready var StateMachine = get_parent().get_parent().get_node("StateMachine")
 
@@ -11,7 +12,6 @@ func enter():
 
 func exit():
 	Timer.stop()
-	fsm.back()
 
 func physics_process(delta):
 	pass

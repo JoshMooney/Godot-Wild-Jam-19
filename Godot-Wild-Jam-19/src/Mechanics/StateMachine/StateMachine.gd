@@ -2,7 +2,7 @@ extends Node
 
 class_name StateMachine
 
-const DEBUG = true
+export var DEBUG = true
 
 var state: Object
 
@@ -15,7 +15,11 @@ func _ready():
 	_enter_state()
 	
 func change_to(new_state):
+	if new_state == state.name:
+		print(get_parent().get_name() + " tried to change its state to " + new_state + " which it already is!")
+		return
 	history.append(state.name)
+	_exit_state()
 	state = get_node(new_state)
 	_enter_state()
 	if len(history) > history_max_length:
@@ -26,9 +30,14 @@ func back():
 		state = get_node(history.pop_back())
 		_enter_state()
 
+func _exit_state():
+#	if DEBUG:
+#		print("Exiting state: ", state.name)
+	state.exit()
+
 func _enter_state():
 	if DEBUG:
-		print("Entering state: ", state.name)
+		print(get_parent().get_name() + " Entering state: ", state.name)
 	# Give the new state a reference to this state machine script
 	state.fsm = self
 	state.enter()

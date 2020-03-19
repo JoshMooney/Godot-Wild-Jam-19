@@ -5,7 +5,7 @@
 [ext_resource path="res://assets/shoot.wav" type="AudioStream" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 201.3
+radius = 647.402
 
 [node name="Shotgun" type="Node2D"]
 script = ExtResource( 2 )
@@ -26,6 +26,7 @@ wait_time = 0.4
 one_shot = true
 
 [node name="ShotSoundArea" type="Area2D" parent="."]
+visible = false
 collision_layer = 2
 collision_mask = 2
 

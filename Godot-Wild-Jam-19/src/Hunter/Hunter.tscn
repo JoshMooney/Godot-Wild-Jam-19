@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/default.png" type="Texture" id=1]
 [ext_resource path="res://src/Hunter/Hunter.gd" type="Script" id=2]
 [ext_resource path="res://src/Hunter/Shotgun.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/Chat_Bubble/ChatBubble.tscn" type="PackedScene" id=4]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -16,9 +17,6 @@ animations = [ {
 
 [node name="Hunter" type="KinematicBody2D"]
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 0.0264644, 0.0528433 )
@@ -42,3 +40,11 @@ current = true
 limit_smoothed = true
 smoothing_enabled = true
 editor_draw_limits = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ChatBubble" parent="." instance=ExtResource( 4 )]
+visible = false
+position = Vector2( 30.3688, -48.194 )
+scale = Vector2( 0.0490133, 0.0530502 )

@@ -1,11 +1,11 @@
 [gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/default.png" type="Texture" id=1]
-[ext_resource path="res://src/Deer/Deer.gd" type="Script" id=2]
+[ext_resource path="res://src/Wolf/Wolf.gd" type="Script" id=2]
 [ext_resource path="res://src/Deer/DeathState.gd" type="Script" id=3]
-[ext_resource path="res://src/Deer/FleeState.gd" type="Script" id=4]
-[ext_resource path="res://src/Deer/IdleState.gd" type="Script" id=5]
-[ext_resource path="res://src/Mechanics/StateMachine/StateMachine.gd" type="Script" id=6]
+[ext_resource path="res://src/Mechanics/StateMachine/StateMachine.gd" type="Script" id=4]
+[ext_resource path="res://src/Wolf/IdleState.gd" type="Script" id=5]
+[ext_resource path="res://src/Wolf/FleeState.gd" type="Script" id=6]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -23,9 +23,9 @@ height = 9.98602
 radius = 361.661
 
 [sub_resource type="CircleShape2D" id=4]
-radius = 104.463
+radius = 170.004
 
-[node name="Deer" type="KinematicBody2D"]
+[node name="Wolf" type="KinematicBody2D"]
 collision_layer = 3090
 collision_mask = 1043
 script = ExtResource( 2 )
@@ -34,6 +34,7 @@ __meta__ = {
 }
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+modulate = Color( 0.792157, 0.835294, 0.282353, 1 )
 scale = Vector2( 0.045699, 0.0316537 )
 frames = SubResource( 1 )
 animation = "idle"
@@ -50,17 +51,16 @@ __meta__ = {
 }
 
 [node name="StateMachine" type="Node" parent="."]
-script = ExtResource( 6 )
-DEBUG = false
+script = ExtResource( 4 )
 
 [node name="IdleState" type="Node" parent="StateMachine"]
 script = ExtResource( 5 )
 
-[node name="FleeState" type="Node" parent="StateMachine"]
-script = ExtResource( 4 )
-
 [node name="DeathState" type="Node" parent="StateMachine"]
 script = ExtResource( 3 )
+
+[node name="FleeState" type="Node" parent="StateMachine"]
+script = ExtResource( 6 )
 
 [node name="FleeTimer" type="Timer" parent="StateMachine"]
 wait_time = 5.0
@@ -69,20 +69,25 @@ one_shot = true
 [node name="HeardShotTimer" type="Timer" parent="StateMachine"]
 one_shot = true
 
+[node name="WanderState" type="Node" parent="StateMachine"]
+
+[node name="HuntState" type="Node" parent="StateMachine"]
+
 [node name="DetectionArea" type="Area2D" parent="."]
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionArea"]
 shape = SubResource( 3 )
 
-[node name="ComfortArea" type="Area2D" parent="."]
+[node name="AggressionArea" type="Area2D" parent="."]
 collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ComfortArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AggressionArea"]
 shape = SubResource( 4 )
 [connection signal="timeout" from="StateMachine/FleeTimer" to="StateMachine/FleeState" method="_on_FleeTimer_timeout"]
 [connection signal="timeout" from="StateMachine/HeardShotTimer" to="StateMachine/IdleState" method="_on_HeardShotTimer_timeout"]
+[connection signal="timeout" from="StateMachine/HeardShotTimer" to="." method="_on_HeardShotTimer_timeout"]
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_DetectionArea_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_DetectionArea_body_exited"]
-[connection signal="body_entered" from="ComfortArea" to="." method="_on_ComfortArea_body_entered"]
-[connection signal="body_exited" from="ComfortArea" to="." method="_on_ComfortArea_body_exited"]
+[connection signal="body_entered" from="AggressionArea" to="." method="_on_AggressionArea_body_entered"]
+[connection signal="body_exited" from="AggressionArea" to="." method="_on_AggressionArea_body_exited"]
